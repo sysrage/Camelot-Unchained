@@ -21,7 +21,7 @@ export interface ChatInputProps {
   label: string;
   send: (text: string) => void;
   slashCommand: (command: string) => void;
-  scroll: (extra?:number) => void;
+  scroll: (extra?: number) => void;
 };
 
 class ChatInput extends React.Component<ChatInputProps, ChatInputState> {
@@ -36,6 +36,7 @@ class ChatInput extends React.Component<ChatInputProps, ChatInputState> {
     this._privateMessageHandler = events.on('cse-chat-private-message', (name: string) => {
       this.privateMessage(name);
     });
+    this.handleInput = this.handleInput.bind(this);
     this.keyDown = this.keyDown.bind(this);
     this.keyUp = this.keyUp.bind(this);
     this.parseInput = this.parseInput.bind(this);
@@ -47,10 +48,19 @@ class ChatInput extends React.Component<ChatInputProps, ChatInputState> {
       expanded: false
     }
   }
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleInput, false);
+  }
   componentWillUnmount() {
     if (this._privateMessageHandler) {
       events.off(this._privateMessageHandler);
     }
+    document.removeEventListener('keydown', this.handleInput, false);
+  }
+  handleInput(e: KeyboardEvent) {
+    const input: HTMLInputElement = this.getInputNode();
+    if (e.keyCode === 13) e.preventDefault();
+    input.focus();
   }
   selectAtUser = (user: string) => {
     const input: HTMLInputElement = this.getInputNode();
