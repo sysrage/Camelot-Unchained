@@ -111,6 +111,24 @@ class Chat extends React.Component<ChatProps, ChatState> {
     this.state.chat.getRooms();
   }
 
+  onBlur(e: any): void {
+    let currentTarget: any = e.currentTarget;
+    setTimeout(function() {
+      if (!currentTarget.contains(document.activeElement)) {
+        console.log('Chat Blurred');
+      }
+    }, 0);
+  }
+
+  onFocus(e: any): void {
+    let currentTarget: any = e.currentTarget;
+    setTimeout(function() {
+      if (currentTarget.contains(document.activeElement)) {
+        console.log('Chat Focused');
+      }
+    }, 0);
+  }
+
   componentWillMount() : void {
     // hook up to chat
     this.state.chat.connect(this.props.username, this.props.userpass);
@@ -133,7 +151,7 @@ class Chat extends React.Component<ChatProps, ChatState> {
     const current : RoomId = this.state.chat.currentRoom;
     const room : ChatRoomInfo = current ? this.state.chat.getRoom(current) : undefined;
     return (
-      <div id={this.name} className="cse-chat chat-container no-select">
+      <div id={this.name} className="cse-chat chat-container no-select" onBlur={this.onBlur} onFocus={this.onFocus}>
         <div className="chat-disconnect" >{this.state.chat.latency}</div>
         <div className="chat-frame">
           <Info

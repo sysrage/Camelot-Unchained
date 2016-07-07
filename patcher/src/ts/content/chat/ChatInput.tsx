@@ -49,13 +49,20 @@ class ChatInput extends React.Component<ChatInputProps, ChatInputState> {
     }
   }
   componentDidMount() {
-    document.addEventListener('keydown', this.handleInput, false);
+    this.captureChatInput();
   }
   componentWillUnmount() {
     if (this._privateMessageHandler) {
       events.off(this._privateMessageHandler);
     }
-    document.removeEventListener('keydown', this.handleInput, false);
+    this.captureChatInput(false);
+  }
+  captureChatInput(disable?: boolean) {
+    if (disable === false) {
+      document.removeEventListener('keydown', this.handleInput, false);
+    } else {
+      document.addEventListener('keydown', this.handleInput, false);
+    }
   }
   handleInput(e: KeyboardEvent) {
     const input: HTMLInputElement = this.getInputNode();

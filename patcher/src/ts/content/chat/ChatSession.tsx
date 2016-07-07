@@ -38,8 +38,14 @@ class ChatSession {
       this.ondisconnect = this.ondisconnect.bind(this);
       this.onrooms = this.onrooms.bind(this);
 
-      window.onblur = () => this.windowActive = false;
+      window.onblur = () => {
+        console.log('chatState - onblur');
+        console.dir(chatState);
+        this.windowActive = false;
+      }
       window.onfocus = () => {
+        console.log('chatState - onfocus');
+        console.dir(chatState);
         this.windowActive = true;
         var room = this.getRoom(this.currentRoom);
         if (room) room.seen();
