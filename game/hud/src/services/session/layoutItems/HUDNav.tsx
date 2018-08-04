@@ -105,8 +105,8 @@ export default {
         ),
         hidden: false,
         onClick: () => {
-          events.fire('hudnav--navigate', 'character');
-          hideClientControlledUI();
+          events.fire('hudnav--navigate', 'character-stats-left');
+          events.fire('hudnav--navigate', 'equippedgear-right');
         },
       },
       {
@@ -135,8 +135,8 @@ export default {
         ),
         hidden: false,
         onClick: () => {
-          events.fire('hudnav--navigate', 'equippedgear-left');
-          events.fire('hudnav--navigate', 'inventory-right');
+          events.fire('hudnav--navigate', 'inventory-left');
+          events.fire('hudnav--navigate', 'equippedgear-right');
         },
       },
       // {
